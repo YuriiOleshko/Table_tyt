@@ -24,7 +24,7 @@ self.__precacheManifest = [
     "url": "/Table_tyt/static/css/2.c543bd76.chunk.css"
   },
   {
-    "revision": "78bb5bf48f064426e359b72c7b6103d7",
+    "revision": "9cb1058a86a110bd76975d30952d85e1",
     "url": "/Table_tyt/index.html"
   }
 ];
