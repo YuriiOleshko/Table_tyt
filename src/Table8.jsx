@@ -2,29 +2,46 @@ import React, {Component} from 'react'
 import {BootstrapTable, TableHeaderColumn} 
         from 'react-bootstrap-table'
 import './Table.css'
-import axios from 'axios';
 
-// import '../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css'
+
+import '../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css'
  
  
 class Table8 extends Component {
 
-  // componentDidUpdate(){
-  //   axios.post('http://localhost:8080',this.props.data).then(data=>console.log(data) )
-  //   console.log(this.props.data)
-  // }
+ 
 showTotal=() =>{
     return <p>There are 100 items total</p>
   }
+
+  
+   onAfterSaveCell =(row) =>{
+    let obj={}
+    for (const prop in row) {
+      obj={ ...row}
+    }
+    this.props.setChange(obj)
+ 
+}
+
+ onBeforeSaveCell=(row, cellName, cellValue)=> {
+  // You can do any validation on here for editing value,
+  // return false for reject the editing
+  return true;
+}
+
   render() {
     const cellEditProp = {
       mode: 'click', // 'dbclick' for trigger by double-click
-      nonEditableRows: function() {
-        return [3];
-      }
+      blurToSave: true,
+      beforeSaveCell: this.onBeforeSaveCell, // a hook for before saving cell
+      afterSaveCell: this.onAfterSaveCell  // a hook for after saving cell
+      
+      
       
     }
-  
+    console.log(cellEditProp)
+    console.log(this.props)
     const options = {
       page: 1,
       prePage:  '⟵',
@@ -45,28 +62,30 @@ showTotal=() =>{
         >
           №
         </TableHeaderColumn>
-        <TableHeaderColumn  dataField='name'
-        filter={ { type: 'TextFilter', delay: 1000 } }>
+        <TableHeaderColumn  dataField='name'>
           Name
+          <input className="filter text-filter form-control" name='name' onChange={this.props.change} type="text" placeholder="Enter Name..."/>
+
         </TableHeaderColumn>
-          <TableHeaderColumn dataField='email'filter={ { type: 'TextFilter', delay: 1000 } }
-          >
+          <TableHeaderColumn dataField='email'>
             Email
+            <input className="filter text-filter form-control" name='email'  onChange={this.props.change} type="text" placeholder="Enter Email..."/>
+
           </TableHeaderColumn>
-          <TableHeaderColumn dataField='funds'
-          filter={ { type: 'TextFilter', delay: 1000 } }
-          >
+          <TableHeaderColumn dataField='funds'>
             Funds
+            <input className="filter text-filter form-control" name='funds'  onChange={this.props.change} type="text" placeholder="Enter Funds..."/>
+
           </TableHeaderColumn>
-          <TableHeaderColumn dataField='phone'
-          filter={ { type: 'TextFilter', delay: 1000 } }
-          >
+          <TableHeaderColumn dataField='phone' >
             Phone
+            <input className="filter text-filter form-control" name='phone' onClick={this.compeaDate}  onChange={this.props.change} type="text" placeholder="Enter Phone..."/>
+
           </TableHeaderColumn>
-          <TableHeaderColumn dataField='city'
-          filter={ { type: 'TextFilter', delay: 1000 } }
-          >
+          <TableHeaderColumn dataField='city'>
             City
+            <input className="filter text-filter form-control" name='city'  onChange={this.props.change} type="text" placeholder="Enter City..."/>
+
           </TableHeaderColumn>
        
        
