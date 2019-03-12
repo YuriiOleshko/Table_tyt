@@ -14,12 +14,17 @@ class App extends Component {
 
     value: '',
     name: '',
-    rowStr: {}
+    rowStr: {},
+    funds: '',
+    email: '',
+    city: '',
+    phone: '',
+    currentPage: ''
 
   }
 
   componentDidMount() {
-    axios('http://localhost:8080/')
+    axios(`http://localhost:8080/?limit=50&offset=0`)
       .then(data => {
         console.log(data.data);
         this.getDate(data.data)
@@ -29,14 +34,30 @@ class App extends Component {
   }
 
   getAxios = () => {
-    axios(`http://localhost:8080/?${this.state.name}=${this.state.value}`)
+    const {
+      email,
+      funds,
+      phone,
+      name,
+      city
+    } = this.state
+    console.log(`http://localhost:8080/?email=${email}&city=${city}&funds=${funds}&phone=${phone}&name=${name}`);
+    axios(`http://localhost:8080?name=${name}&city=${city}&funds=${funds}&phone=${phone}&email=${email}&limit=5&offset=0`)
       .then(data => {
         console.log(data.data);
 
         this.getDate(data.data)
       })
-   
+
   }
+
+  // onPageChange=(page, sizePerPage)=> {
+  //   const currentIndex = (page - 1) * sizePerPage;
+  //   this.setState({
+  //     // data: sizePerPage,
+  //     currentPage: page
+  //   });
+  // }
 
   objUpdate = () => {
     console.log(this.state.rowStr.id);
@@ -46,9 +67,10 @@ class App extends Component {
   handelChange = (ev) => {
     let vale = ev.target.value
     let nam = ev.target.name
+    console.log(nam);
     this.setState({
-      value: vale,
-      name: nam
+
+      [nam]: vale
     })
     this.getAxios();
 
@@ -79,11 +101,12 @@ class App extends Component {
       isLoading,
       dataPersons,
       value,
-      name
+      name,
+      onPageChange
     } = this.state
     return ( <
       div className = "App" > {
-        isLoading ? < p > Loading... < /p> :<Table8  data={dataPersons} val={value} change={this.handelChange} nam={name} setChange={this.setColum} / >
+        isLoading ? < p > Loading... < /p> :<Table8  data={dataPersons} val={value} change={this.handelChange} nam={name} onPageChange={this.onPageChange} setChange={this.setColum} / >
       }
 
       <
